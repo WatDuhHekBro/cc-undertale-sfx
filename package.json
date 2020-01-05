@@ -1,4 +1,8 @@
 {
 	"name": "undertale-sfx",
-	"main": "mod.js"
+	"version": "0.1.1",
+	"description": "Replace the default text sound with ones from Undertale.",
+	"plugin": "plugin.js",
+	"module": false,
+	"ccmodDependencies": {}
 }

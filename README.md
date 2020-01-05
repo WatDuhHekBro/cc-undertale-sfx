@@ -8,7 +8,8 @@ Sounds are from [here](https://www.sounds-resource.com/pc_computer/undertale/sou
 	"character":
 	{
 		"expression": "sound effect",
-		"DEFAULT": "Doubles as the sound effect used when a character has a DEFAULT expression or whenever the character has an expression that isn't defined here (ie the default case)."
+		"DEFAULT": "Doubles as the sound effect used when a character has a DEFAULT expression or
+		whenever the character has an expression that isn't defined here (ie the default case)."
 	}
 }
 ```
