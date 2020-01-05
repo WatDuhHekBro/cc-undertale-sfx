@@ -1,0 +1,28 @@
+{
+	"main.lea":
+	{
+		"DEFAULT": "generic1",
+		"INSANE": "flowey-evil",
+		"INSANE_DOWN": "flowey-evil"
+	},
+	"main.emilie":
+	{
+		"DEFAULT": "alphys"
+	},
+	"main.glasses":
+	{
+		"DEFAULT": "papyrus"
+	},
+	"main.sergey":
+	{
+		"DEFAULT": "sans"
+	},
+	"main.sergey-rl":
+	{
+		"DEFAULT": "sans"
+	},
+	"main.guild-leader":
+	{
+		"DEFAULT": "toriel"
+	}
+}
