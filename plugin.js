@@ -1,11 +1,9 @@
-var undertalesfx;
-
 export default class UndertaleSFX extends Plugin
 {
 	/*
 	[Field Variables]
 	- BEEPS (Object): Determine the beep sound to use based on the character and their expression. Expression overrides Character.
-	- beep (Object): The ig.Sound object used for the beep.
+	- beepSound (Object): The ig.Sound object used for the beep.
 	This code is super ghetto compared to the Voice Mod. Refer to that and the comments there.
 	*/
 	
@@ -13,7 +11,6 @@ export default class UndertaleSFX extends Plugin
 	{
 		super(mod);
 		this.mod = mod;
-		undertalesfx = this;
 	}
 	
 	async preload() {}
@@ -23,17 +20,43 @@ export default class UndertaleSFX extends Plugin
 	async main()
 	{
 		this.BEEPS = await simplify.resources.loadJSON(this.mod.baseDirectory.substring(7) + 'vc/config.json');
+		this._inject(this);
+	}
+	
+	_getBeepSound(character, expression)
+	{
+		var Z = this.BEEPS[character];
+		var sound = Z ? (Z[expression] ? Z[expression] : (Z['DEFAULT'] ? Z['DEFAULT'] : null)) : null;
 		
+		// Special Cases //
+		if(sound === 'mettaton')
+		{
+			
+		}
+		else if(sound === 'temmie')
+		{
+			
+		}
+		else if(sound === 'gaster')
+		{
+			
+		}
+		
+		return sound ? new ig.Sound(this.mod.baseDirectory.substring(7) + 'vc/' + sound + '.ogg') : null;
+	}
+	
+	_inject(mod)
+	{
 		ig.EVENT_STEP.SHOW_MSG.inject({
-			beep: null,
+			beepSound: null,
 			init: function()
 			{
 				this.parent(...arguments);
-				this.beep = undertalesfx.getBeep(this.person, this.charExpression.expression);
+				this.beepSound = mod._getBeepSound(this.person, this.charExpression.expression);
 			},
 			start: function()
 			{
-				undertalesfx.beep = this.beep;
+				mod.beepSound = this.beepSound;
 				this.parent();
 			}
 		});
@@ -41,16 +64,10 @@ export default class UndertaleSFX extends Plugin
 		ig.MessageOverlayGui.Entry.inject({
 			addMessage: function()
 			{
-				this.beepSound = undertalesfx.beep ? undertalesfx.beep : this.beepSound;
+				mod.beepSound.constructor === Array;
+				this.beepSound = mod.beepSound ? mod.beepSound : this.beepSound;
 				return this.parent(...arguments);
 			}
 		});
-	}
-	
-	getBeep(character, expression)
-	{
-		var Z = undertalesfx.BEEPS;
-		var sound = Z[character] ? (Z[character][expression] ? Z[character][expression] : (Z[character]['DEFAULT'] ? Z[character]['DEFAULT'] : null)) : null;
-		return sound ? new ig.Sound(this.mod.baseDirectory.substring(7) + 'vc/' + sound + '.ogg') : null;
 	}
 }

@@ -17,3 +17,4 @@ Sounds are from [here](https://www.sounds-resource.com/pc_computer/undertale/sou
 # TODO List
 - Add support for side messages.
 - Add other voices which have multiple values like Mettaton.
+- Add: undyne, mettaton, temmie, gaster.
