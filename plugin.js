@@ -23,28 +23,6 @@ export default class UndertaleSFX extends Plugin
 		this._inject(this);
 	}
 	
-	_getBeepSound(character, expression)
-	{
-		var Z = this.BEEPS[character];
-		var sound = Z ? (Z[expression] ? Z[expression] : (Z['DEFAULT'] ? Z['DEFAULT'] : null)) : null;
-		
-		// Special Cases //
-		if(sound === 'mettaton')
-		{
-			
-		}
-		else if(sound === 'temmie')
-		{
-			
-		}
-		else if(sound === 'gaster')
-		{
-			
-		}
-		
-		return sound ? new ig.Sound(this.mod.baseDirectory.substring(7) + 'vc/' + sound + '.ogg') : null;
-	}
-	
 	_inject(mod)
 	{
 		ig.EVENT_STEP.SHOW_MSG.inject({
@@ -57,17 +35,61 @@ export default class UndertaleSFX extends Plugin
 			start: function()
 			{
 				mod.beepSound = this.beepSound;
-				this.parent();
+				this.parent(...arguments);
 			}
 		});
 		
 		ig.MessageOverlayGui.Entry.inject({
 			addMessage: function()
 			{
-				mod.beepSound.constructor === Array;
-				this.beepSound = mod.beepSound ? mod.beepSound : this.beepSound;
+				if(mod.beepSound && mod.beepSound.constructor !== Array)
+					this.beepSound = mod.beepSound || this.beepSound;
 				return this.parent(...arguments);
 			}
 		});
+		
+		sc.TextGui.inject({
+			update: function()
+			{
+				if(mod.beepSound && mod.beepSound.constructor === Array)
+					this.beepSound = mod.beepSound[mod._getRandom(0, mod.beepSound.length)];
+				this.parent(...arguments);
+			}
+		});
 	}
+	
+	_getBeepSound(character, expression)
+	{
+		var Z = this.BEEPS[character];
+		var sound = Z ? (Z[expression] || Z['DEFAULT']) : null;
+		var list;
+		
+		// Special Cases //
+		if(sound === 'mettaton')
+		{
+			list = [];
+			
+			for(var i = 0; i < 9; i++)
+				list[i] = new ig.Sound(this.mod.baseDirectory.substring(7) + 'vc/mettaton-' + (i+1) + '.ogg');
+		}
+		else if(sound === 'temmie')
+		{
+			list = [];
+			
+			for(var i = 0; i < 6; i++)
+				list[i] = new ig.Sound(this.mod.baseDirectory.substring(7) + 'vc/mettaton-' + (i+1) + '.ogg');
+		}
+		else if(sound === 'gaster')
+		{
+			list = [];
+			
+			for(var i = 0; i < 7; i++)
+				list[i] = new ig.Sound(this.mod.baseDirectory.substring(7) + 'vc/mettaton-' + (i+1) + '.ogg');
+		}
+		
+		return list || (sound ? new ig.Sound(this.mod.baseDirectory.substring(7) + 'vc/' + sound + '.ogg') : null);
+	}
+	
+	// If min = 1 & max = 10, generates 1-9.
+	_getRandom(min, max) {return Math.floor(Math.random() * (max - min)) + min;}
 }
