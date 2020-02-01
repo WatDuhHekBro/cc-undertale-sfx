@@ -1,6 +1,6 @@
 {
 	"name": "undertale-sfx",
-	"version": "0.1.2",
+	"version": "0.1.3",
 	"description": "Replace the default text sound with ones from Undertale.",
 	"plugin": "plugin.js",
 	"module": false,
